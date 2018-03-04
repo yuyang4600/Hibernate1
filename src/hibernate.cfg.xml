@@ -5,13 +5,20 @@
         
 <hibernate-configuration>
 	<session-factory>
-		<property name="connection.driver_class">oracle.jdbc.driver.OracleDriver</property>
-		<property name="connection.username">yangyu</property>
+		<property name="connection.driver_class">com.mysql.jdbc.Driver<!-- oracle .jdbc.driver.OracleDriver --></property>
+		<property name="connection.username">root</property>
 		<property name="connection.password">2017</property>
-		<property name="connection.url">jdbc:oracle:thin:@localhost:1521:orcl</property>
-		<property name="dialect">org.hibernate.dialect.OracleDialect</property>
+		<property name="connection.url">jdbc:mysql:///test</property>  <!-- 如果是localhost:3306,可以直接用/代替 -->
+		<property name="dialect">org.hibernate.dialect.MySQLDialect</property>
 		
 		<property name="show_sql">true</property>
+		<property name="format_sql">true</property>
+		
+		<!-- 配置可以使用getCurrentSession -->
+		<property name="current_session_context_class">thread</property>
+		
+		<!-- 配置数据库自动建表 -->
+		<property name="hbm2ddl.auto">update</property><!-- hbm2ddl == hbmtoddl,hbm：hibernate mapping，ddl:数据库定义语言 ;create:如果没有该表则创建,如果有则删除再建；update：如果没有该表则创建，如果有则更新数据-->
 		<mapping resource="com/cx/domain/Employee.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>

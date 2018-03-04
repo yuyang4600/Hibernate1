@@ -5,10 +5,13 @@
 	
 <hibernate-mapping package="com.cx.domain">
 	<class name="Employee" table="employee">
-		<id name="id" column="id" type="java.lang.Integer">
+		<!-- <id name="id" column="id" type="java.lang.Integer">
 			<generator class="sequence">
 				<param name="sequence">emp_seq</param>
 			</generator>
+		</id>--> <!-- sequence:序列，oracle独有 -->
+		<id name="id" column="id" type="java.lang.Integer">
+			<generator class="increment"></generator>
 		</id>
 		<property name="name" type="java.lang.String">
 			<column name="name" not-null="false"></column>

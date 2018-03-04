@@ -15,7 +15,7 @@ public class TestMain {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
-		
+		updateEmployee();
 	}
 	public static void deleteEmployee() {
 		/**
@@ -33,15 +33,39 @@ public class TestMain {
 	 * 修改
 	 */
 	public static void updateEmployee() {
-		Session session = MySessionFactory.getSessionFactory().openSession();
+		/*Session session = MySessionFactory.getSessionFactory().openSession();
 		Transaction transaction = session.beginTransaction();
-		/*
-		 * load是通过主键属性获取对象示例，返回的是一个对象
-		 */
-		Employee emp = (Employee)session.load(Employee.class, 2);
+
+		Employee emp = (Employee)session.load(Employee.class, 2);  //load是通过主键属性获取对象示例，返回的是一个对象
 		emp.setName("mk");
 		transaction.commit();
 		session.close();
+		*/
+		
+		/*
+		 * 如何回滚事务
+		 */
+		
+		Session session = MySessionFactory.getSessionFactory().openSession();
+		Transaction ts = null;
+		try {
+			ts = session.beginTransaction();
+			Employee emp = (Employee)session.load(Employee.class, 2);  //load是通过主键属性获取对象示例，返回的是一个对象
+			emp.setName("ml");
+			int i = 9/0;
+			ts.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			if(ts!=null) {
+				ts.rollback();
+			}
+			throw new RuntimeException(e.getMessage());
+		}finally {
+			if(session!=null&&session.isOpen()) {
+				session.close();
+			}
+			
+		}
 	}
 	/**
 	 * 添加
